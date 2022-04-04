@@ -1,0 +1,25 @@
+.userInfo {
+    display: flex;
+    align-items: center;
+}
+
+.userPhoto {
+    width: 40px;
+    height: 40px;
+    border-radius: 30px;
+    margin-right: 20px;
+}
+
+.userNickname {
+    color: white;
+    margin-right: 10px;
+}
+
+.logoutBtn {
+    color: #fff;
+    background: inherit;
+    border: none;
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+}

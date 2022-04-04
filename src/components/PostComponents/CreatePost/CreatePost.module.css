@@ -1,0 +1,48 @@
+.container {
+    position: relative;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    min-height: 280px;
+    height: fit-content;
+    box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.contTitle {
+    text-align: left;
+}
+
+textarea, textarea:focus {
+    outline: none;
+    font-size: 16px;
+    border: none;
+    height: 80px;
+    margin-bottom: 20px;
+    resize: none;
+}
+
+.postBtn {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+
+.uploadFileInput {
+    display: none;
+}
+
+.uploadFileIcon {
+    position: absolute;
+    bottom: 20px;
+}
+
+.imagePreview img {
+    display: none;
+    width: 80px;
+    height: 60px;
+    border-radius: 8px;
+}

@@ -1,0 +1,17 @@
+.commentInput {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.input, .input:focus{
+    width: 100%;
+    border: none;
+    outline: none;
+}
+
+.postCommentBtn {
+    border: none;
+    background: inherit;
+    cursor: pointer;
+}
