@@ -1,0 +1,16 @@
+.Overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 30px;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background-color: #000000ba;
+    z-index: 1;
+    color: #fff;
+    text-align: center;
+    align-items: center;
+  }

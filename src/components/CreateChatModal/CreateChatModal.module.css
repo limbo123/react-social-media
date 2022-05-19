@@ -1,0 +1,67 @@
+.Overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 30px;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #000000ba;
+  z-index: 1200;
+  color: #fff;
+  text-align: center;
+  align-items: center;
+}
+
+.Modal {
+  min-width: 500px;
+  min-height: 100px;
+  height: fit-content;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 10px;
+  position: relative;
+}
+
+.modalTitle {
+  color: #000;
+  font-size: 15px;
+  position: relative;
+  margin-bottom: 20px;
+  margin-top: 0;
+  margin-right: auto;
+}
+
+.RegisterForm {
+  position: relative;
+  margin-right: auto;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.RegisterForm input {
+  margin-bottom: 10px;
+  height: 30px;
+  width: 50%;
+  border: 1px solid rgb(157, 153, 153);
+  border-radius: 13px;
+  padding-left: 10px;
+}
+
+.RegisterForm button {
+  min-width: 100px;
+  border: solid 2px #ff1100;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  height: 30px;
+  color: #fff;
+  background: #eb5e54;
+  border-radius: 6px;
+}

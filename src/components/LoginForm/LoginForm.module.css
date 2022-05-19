@@ -1,0 +1,77 @@
+.modalTitle {
+    color: #000;
+    position: relative;
+    margin-bottom: 0;
+    margin-top: 0;
+    margin-right: auto;
+}
+
+.RegisterForm {
+    position: relative;
+    margin-right: auto;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+
+.RegisterForm input {
+    margin-bottom: 10px;
+    height: 30px; 
+    border: 1px solid rgb(157, 153, 153);
+    border-radius: 5px;
+    padding-left: 10px;
+}
+
+.RegisterForm button {
+    max-width: 100px;
+    border: solid 2px #ff1100;
+    height: 30px;
+    color: #fff;
+    background: #eb5e54;
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+
+.RegistrationLink {
+    position: relative;
+    font-size: 13px;
+    color: rgb(0, 13, 255);
+    cursor: pointer;
+    margin-right: auto;
+    margin-top: 5px;
+}
+
+.RegistrationLink:hover {
+    color: rgb(100, 104, 181);
+}
+
+.recoverPassword {
+    position: relative;
+    font-size: 13px;
+    color: rgb(0, 13, 255);
+    cursor: pointer;
+    margin-right: auto;
+}
+
+.recoverPassword:hover {
+    color: rgb(100, 104, 181);
+}
+
+.loginWith {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    right: 20px; 
+    height: calc(100% - 40px);
+}
+
+.loginWith button {
+    height: 30px;
+    border-radius: 5px;
+    background: inherit;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0px 3px 6px 1px rgba(34, 60, 80, 0.2);
+}

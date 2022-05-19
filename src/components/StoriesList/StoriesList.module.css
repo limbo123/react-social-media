@@ -1,0 +1,29 @@
+.container {
+    max-width: 50vw;
+    text-align: center;
+    padding-top: 30px;
+    background: inherit;
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+.story {
+    display: flex;
+    max-width: 50px;
+    max-height: 50px;
+    text-align: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.story p {
+    margin: 0;
+}
+
+.story img {
+    width: 50px;
+    object-fit: cover;
+    border-radius: 50px;
+    height: 50px;
+    margin: 0;
+}

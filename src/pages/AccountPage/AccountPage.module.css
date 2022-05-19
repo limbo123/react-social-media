@@ -1,0 +1,191 @@
+.Container {
+  width: 100%;
+  min-height: 100vh;
+  text-align: center;
+  padding-top: 30px;
+  background: rgb(245, 237, 237);
+}
+
+.contentContainer {
+  position: relative;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+  margin-right: 10vw;
+  box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.Overview {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.Overview button {
+  font-size: 14px;
+  background: #eb5e54;
+  color: #fff;
+  margin-left: 20px;
+}
+
+.Overview button:hover {
+  background: #c6473e;
+}
+
+.nicknameOverlay {
+}
+
+.nicknameOverlay h1 {
+  font-weight: 200;
+  margin: 0;
+  width: fit-content;
+  display: flex;
+}
+
+.changeNickame {
+  padding: 0;
+  margin: 0;
+  width: fit-content;
+}
+
+.changeNicknameOverlay {
+  width: fit-content;
+  height: fit-content;
+  padding: 5px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;  
+}
+
+.closeNicknameChanging {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    background: none !important;
+}
+
+.changeNicknameOverlay p {
+    color: rgb(255, 3, 3);
+    font-size: 15px;
+}
+
+.ChangeNicknameForm {
+    display: flex;
+}
+
+.changeNicknameOverlay button {
+    border: none;
+    width: fit-content;
+    height: fit-content;
+}
+
+.changeNickameBtn {
+  color: #000 !important;
+  background: none !important;
+  border: none;
+}
+
+.bioOverlay {
+  display: flex;
+  justify-content: start;
+  margin: 10px 0;
+}
+
+.bioArea {
+  min-width: 80px;
+  height: auto;
+}
+
+.changeBioBtn{
+  background: none !important;
+  color: #000 !important;
+  display: none;    
+  border: none;
+  width: 30px;
+  height: 20px;
+}
+
+/* .bioOverlay p {
+  margin: 0;
+  padding: 0;
+} */
+
+.profileInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.profileInfo p {
+  margin: 0;
+  padding: 0;
+}
+
+.statistics {
+  display: flex;
+}
+
+.statistics span {
+  margin-right: 10px;
+  display: flex;
+}
+
+.Overview button {
+  height: 30px;
+}
+
+.ProfileImage {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.photoSect {
+  margin-right: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.changeImage {
+  display: none;
+  position: absolute;
+}
+
+.photoSect:hover .changeImage {
+  display: block;
+}
+
+.photoSect:hover .currentUserImage {
+  filter: blur(2px);
+}
+
+.userPosts {
+  display: flex;
+  margin-right: auto;
+  min-height: 300px;
+}
+
+.userWithoutPosts {
+  display: flex;
+  min-height: 300px;
+  justify-content: center;
+  align-items: center;
+}
+
+.postImage {
+  cursor: pointer;
+  margin-right: 15px;
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+}

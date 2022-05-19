@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@500&display=swap');
+.storyText {
+    display: none;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    background: none;
+    color: #fff;
+    border: none;
+    text-align: center;
+    width: fit-content;
+    font-family: 'Josefin Sans', sans-serif;
+}

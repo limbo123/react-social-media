@@ -9,14 +9,18 @@ import firebase from "firebase/compat/app";
 import { ReactNotifications, Store } from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import "animate.css";
+import { showNotification } from "../../../utils/notification";
+import { useSelector } from "react-redux";
 
-function CreatePost() {
+function CreatePost({ currentUser }) {
   const { auth, storage, firestore } = useContext(Context);
   const [user] = useAuthState(auth);
   const [postText, setPostText] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const [progressPercent, setProgressPercent] = useState(0);
   const imagePreview = document.querySelector("#image-preview");
+  const { currentTheme } = useSelector(state => state.themeReducer);
+  
 
   const handleChange = (e) => {
     if (e.target.files[0]) {
@@ -28,25 +32,8 @@ function CreatePost() {
     }
   };
 
-  const showNotification = (statusSuccess = true) => {
-    Store.addNotification({
-      title: statusSuccess ? "Post Success" : "Post Error",
-      message: statusSuccess ? "The posting was complated successfully" : "The image wasn't chosen",
-      type: statusSuccess ? "success":"danger",
-      container: "top-right",
-      insert: "top",
-      animationIn: ['animate__animated animate__fadeIn'],
-      animationOut: ['animate__animated animate__fadeOut'],
-      dismiss: {
-        duration: 3000,
-        onScreen: true,
-        showIcon: true,
-      }
-    })
-  }
-
   const handleUpload = async () => {
-    if (imageFile) {
+    if (imageFile && currentUser) {
       let imageName = shortId.generate();
       const uploadTask = storage.ref(`images/${imageName}.jpg`).put(imageFile);
       uploadTask.on(
@@ -69,8 +56,9 @@ function CreatePost() {
               firestore.collection("posts").add({
                 createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                 postText,
-                userAvatar: user.photoURL,
-                username: user.email.replace("@gmail.com", ""),
+                userAvatar: currentUser.user.profilePhoto,
+                username: currentUser.user.nickname,
+                userEmail: user.email,
                 imageURL,
                 likes: 0,
               });
@@ -78,21 +66,22 @@ function CreatePost() {
               imagePreview.src = null;
               imagePreview.style.display = "none";
               setPostText("");
-              showNotification();
+              // showNotification(true, "Post Success", "The posting was complated successfully");
             });
         }
       );
     } else {
-      showNotification(false)
+      showNotification(false, "Post Error", "The image wasn't chosen")
     }
   };
   return (
     <>
     <ReactNotifications />
       
-      <div className={styles.container}>
+      <div className={styles.container} style={currentTheme === "light" ? {background: "#fff"} : {background: "#203A4F", color: "#fff"}}>
         <h3 className={styles.contTitle}>Create Post </h3>
         <textarea
+        style={{background: "inherit", color: "inherit"}}
           placeholder="Type text there..."
           value={postText}
           onChange={(e) => setPostText(e.target.value)}
@@ -114,7 +103,7 @@ function CreatePost() {
         <Button
           onClick={handleUpload}
           style={{
-            background: "#eb5e54",
+            background: currentTheme === "light" ? "#eb5e54" : "#145996",
             width: "fit-content",
             position: "absolute",
             bottom: "20px",

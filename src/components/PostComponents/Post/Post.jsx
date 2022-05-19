@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import shortid from "shortid";
 import { Context } from "../../..";
@@ -7,6 +7,9 @@ import DeletePostAlertModal from "../DeletePostAlertModal/DeletePostAlertModal";
 import styles from "./Post.module.css";
 import { AiOutlineDelete } from "react-icons/ai";
 import { AiOutlineLike, AiFillLike } from "react-icons/ai";
+import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
+import { PROFILE_PAGE } from "../../../utils/paths";
+import { Link } from "react-router-dom";
 
 function Post({ post, id }) {
   const { auth, storage, firestore } = useContext(Context);
@@ -14,6 +17,17 @@ function Post({ post, id }) {
   const [isDeleting, setIsDeleting] = useState(false);
   const [likes, setLikes] = useState(post.likes ? post.likes : []);
   const [isLikeLeaved, setIsLikeLeaved] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      if (likes.includes(user.email)) {
+        setIsLikeLeaved(true);
+      } else {
+        setIsLikeLeaved(false);
+      }
+    }
+  });
+
   const deletePost = () => {
     let imageRef = storage.refFromURL(post.imageURL);
     imageRef.delete();
@@ -53,9 +67,16 @@ function Post({ post, id }) {
       )}
       <div className={styles.container}>
         <div className={styles.userInfo}>
-          <img className={styles.userAvatar} src={post.userAvatar} alt="" />
-          <span className={styles.userName}>{post.username}</span>
-          {user && post.username === user.email.replace("@gmail.com", "") && (
+          <Link className={styles.Link} to={{
+            pathname: PROFILE_PAGE,
+            search: `?name=${post.username}`,
+
+            state: {currentUser: post.username}
+          }}>
+            <img className={styles.userAvatar} src={post.userAvatar} alt="" />
+            <span className={styles.userName}>{post.username}</span>
+          </Link>
+          {user && post.userEmail === user.email && (
             <div
               style={{ right: "20px", position: "absolute", cursor: "pointer" }}
               onClick={() => setIsDeleting(true)}
@@ -81,7 +102,7 @@ function Post({ post, id }) {
                   size="1.6rem"
                 />
               )}
-              {post.likes ? post.likes.length : 0}
+              <span>{post.likes ? post.likes.length : 0}</span>
             </div>
           )}
           <p className={styles.postText}>

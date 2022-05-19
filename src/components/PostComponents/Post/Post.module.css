@@ -18,6 +18,7 @@
     align-items: center;
     margin-right: auto;
     margin-bottom: 10px;
+    color: #000;
 }
 
 .userAvatar {
@@ -25,10 +26,21 @@
     margin-right: 10px;
     height: 40px;
     border-radius: 50px;
+    object-fit: cover;
+}
+
+.Link {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.userName {
+    color: #000;
 }
 
 .postImage {
-    width: 100%;
+    max-width: 100%;
     height: auto;
 }
 
@@ -39,11 +51,17 @@
     cursor: pointer;
 }
 
+.postLikes span {
+    color: #000
+}
+
 .postText {
-    display: flex;
-    margin-right: auto;
+    text-align: left;
+    color: #000;
+
 }
 
 .postText span{
     font-weight: bold;
+    color: #000;
 }
