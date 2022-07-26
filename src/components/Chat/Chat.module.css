@@ -52,6 +52,7 @@
     padding-left: 6px;
     border: 1.7px solid rgb(168, 168, 168);
     border-radius: 50px;
+    background: inherit;
 }
 
 .messageForm button {

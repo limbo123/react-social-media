@@ -11,7 +11,13 @@ import { setupStore } from "./redux/store";
 import { BrowserRouter } from "react-router-dom/cjs/react-router-dom.min";
 
 firebase.initializeApp({
-  // firebase config(private information)
+  apiKey: "AIzaSyCfZvhE-s5B3wa009aiNsLNUOOAKHdyXog",
+  authDomain: "react-social-media-c2855.firebaseapp.com",
+  projectId: "react-social-media-c2855",
+  storageBucket: "react-social-media-c2855.appspot.com",
+  messagingSenderId: "982795037283",
+  appId: "1:982795037283:web:2503a9e3d46a7687e46656",
+  measurementId: "G-870KFTB0T6",
 });
 
 export const Context = createContext(null);

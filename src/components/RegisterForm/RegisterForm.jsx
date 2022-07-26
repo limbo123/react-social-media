@@ -20,10 +20,10 @@ function RegisterForm() {
   const { error } = useSelector(state => state.registerUser);
   const image = document.querySelector("#image"); 
 
-  const authWithGoogle = async () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    const { user } = await auth.signInWithPopup(provider);
-  };
+  // const authWithGoogle = async () => {
+  //   const provider = new firebase.auth.GoogleAuthProvider();
+  //   const { user } = await auth.signInWithPopup(provider);
+  // };
 
   const handleProfileImageChange = (e) => {
     if(e.target.files[0]) {
@@ -50,7 +50,7 @@ function RegisterForm() {
       >
         <input
           required
-          type="text"
+          type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Enter Your Email"
@@ -65,7 +65,7 @@ function RegisterForm() {
         />
         <input
         required
-          type="text"
+          type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Enter Your Password"
@@ -86,12 +86,12 @@ function RegisterForm() {
         />
         <button type="submit">Register</button>
       </form>
-      <div className={styles.loginWith}>
+      {/* <div className={styles.loginWith}>
         <button className={styles.googleLoginBtn} onClick={authWithGoogle} type="button">
           Auth with Google
           <FcGoogle size="1.3rem" style={{ marginLeft: "5px" }} />
         </button>
-      </div>
+      </div> */}
     </>
   );
 }

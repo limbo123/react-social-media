@@ -71,9 +71,9 @@ function Navbar({ currentUser, users }) {
         style={currentTheme === "light" ? { background: "#eb5e54" } : { background: "#193a57"}}
       >
         <Toolbar>
-          <Grid container>
+          <Grid container alignItems={"center"}>
             <h3
-              style={{ color: "white", display: "flex", alignItems: "center" }}
+              style={{ color: "white", display: "flex", alignItems: "center", marginRight: 10 }}
               className="logo"
             >
               <FaReact size="1.5rem" /> React Social Network

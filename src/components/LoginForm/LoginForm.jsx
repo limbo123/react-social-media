@@ -18,10 +18,10 @@ function LoginForm({ redirectToLogin }) {
   const { error } = useSelector(state => state.registerUser)
 
 
-  const authWithGoogle = async () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    const { user } = await auth.signInWithPopup(provider);
-  };
+  // const authWithGoogle = async () => {
+  //   const provider = new firebase.auth.GoogleAuthProvider();
+  //   const { user } = await auth.signInWithPopup(provider);
+  // };
 
 
   const handleRegister = (e) => {
@@ -44,13 +44,13 @@ function LoginForm({ redirectToLogin }) {
         className={styles.RegisterForm}
       >
         <input
-          type="text"
+          type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Enter Your Email"
         />
         <input
-          type="text"
+          type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Enter Your Password"
@@ -60,12 +60,12 @@ function LoginForm({ redirectToLogin }) {
       <a onClick={recoverPassword} className={styles.recoverPassword}>Recover Password</a>
       <a onClick={redirectToLogin} className={styles.RegistrationLink}>Don't have account yet? Register</a>
 
-      <div className={styles.loginWith}>
+      {/* <div className={styles.loginWith}>
         <button className={styles.googleLoginBtn} onClick={authWithGoogle} type="button">
           Auth with Google
           <FcGoogle size="1.3rem" style={{ marginLeft: "5px" }} />
         </button>
-      </div>
+      </div> */}
     </>
   );
 }

@@ -60,7 +60,7 @@ function StoriesList({ openCreatingModal, currentUser }) {
                 setIsWatchingStory(true);
               }}>
                 <img src={userStories[0].previewImage} alt="" />
-                <p>{userStories[0].author}</p>
+                <p style={currentTheme === "dark" ? {color: "#fff"} : {color: "#000"}}>{userStories[0].author}</p>
               </div>
             );
           })}

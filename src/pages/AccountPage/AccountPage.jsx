@@ -15,6 +15,8 @@ import { IoClose } from "react-icons/io5";
 import { CHAT_PAGE } from "../../utils/paths";
 import shortid from "shortid";
 import classNames from "classnames";
+import useSelection from "antd/lib/table/hooks/useSelection";
+import { useSelector } from "react-redux";
 
 function AccountPage({ currentUser }) {
   const { firestore, storage } = useContext(Context);
@@ -28,6 +30,7 @@ function AccountPage({ currentUser }) {
   const [newNickname, setNewNickname] = useState("");
   const [isNicknameChanging, setIsNicknameChanging] = useState(false);
   const [changeNicknameError, setChangeNicknameError] = useState("");
+  const { currentTheme } = useSelector(state => state.themeReducer);
 
   const username = QueryString.parse(location.search, {
     ignoreQueryPrefix: true,
@@ -244,9 +247,9 @@ function AccountPage({ currentUser }) {
               closePostModal={() => setIsPostOponed(false)}
             />
           )}
-          <div className={styles.Container}>
+          <div style={currentTheme === "dark" ? {background: "#100f24"} : {background: "rgb(245, 237, 237)"}} className={styles.Container}>
             <Navigation currentUser={currentUser} />
-            <div className={styles.contentContainer}>
+            <div className={styles.contentContainer} style={currentTheme === "dark" ? {background: "#203A4F", color: '#fff'} : {background: "#fff"}}>
               <div className={styles.Overview}>
                 <div className={styles.photoSect}>
                   <img
@@ -264,7 +267,7 @@ function AccountPage({ currentUser }) {
                   {user.user.nickname === currentUser.user.nickname && (
                     <div className={styles.changeImage}>
                       <label htmlFor="change-image">
-                        <BiEditAlt size="1.5rem" />
+                        <BiEditAlt size="1.5rem" color={currentTheme === "dark" ? '#fff' : "#000"}/>
                       </label>
                       <input
                         onChange={changeProfilePhoto}

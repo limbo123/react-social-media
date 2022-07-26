@@ -18,6 +18,7 @@ function OverviewPage({ currentUser }) {
   const [isCreatingHistory, setIsCreatingHistory] = useState(false);
   const { currentTheme } = useSelector(state => state.themeReducer);
 
+  console.log(currentUser);
 
   useEffect(() => {
     if (currentUser) {
@@ -106,7 +107,7 @@ function OverviewPage({ currentUser }) {
         {user ? <CreatePost currentUser={currentUser} /> : <Login />}
 
         <div id="postsArea">
-          {posts &&
+          {currentUser && posts.length > 0 &&
             posts.map(({ id, post }) => {
               if (id === lastPost.id) {
                 return (
@@ -121,6 +122,7 @@ function OverviewPage({ currentUser }) {
                 </div>
               );
             })}
+            {currentUser && posts.length === 0 && <h2 style={currentTheme === "dark" ? {color: "#fff"} : {color: "#000"}}>Your friends haven't posts yet. You can subscribe to another people to see their posts</h2>}
         </div>
       </div>
     </>

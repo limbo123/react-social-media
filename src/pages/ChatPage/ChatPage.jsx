@@ -11,6 +11,7 @@ import { Route } from "react-router-dom";
 import { Redirect } from "react-router-dom";
 import Chat from "../../components/Chat/Chat";
 import { Context } from "../..";
+import { useSelector } from "react-redux";
 
 function ChatPage({ currentUser, users }) {
   const { firestore } = useContext(Context)
@@ -19,6 +20,8 @@ function ChatPage({ currentUser, users }) {
     firestore.collection("chats")
   );
   const [chats, setChats] = useState([])
+  const { currentTheme } = useSelector(state => state.themeReducer);
+
 
   useEffect(() => {
     if(currentUser) {
@@ -40,9 +43,9 @@ function ChatPage({ currentUser, users }) {
               closeCreateChatModal={() => setIsChatCreating(false)}
             />
           )}
-          <div className={styles.Container}>
+          <div className={styles.Container} style={currentTheme === "dark" ? {background: "#100f24"} : {background: "rgb(245, 237, 237)"}} >
             <Navigation currentUser={currentUser} />
-            <div className={styles.contentContainer}>
+            <div className={styles.contentContainer} style={currentTheme === "dark" ? {background: "#203A4F", color: '#fff'} : {background: "#fff"}}>
               <div className={styles.chatsList}>
                 {chats.length > 0 ? (
                   chats.map((chat) => {
@@ -51,7 +54,8 @@ function ChatPage({ currentUser, users }) {
                       <NavLink
                         className={styles.chatLink}
                         key={chat.chatId}
-                        activeClassName={styles.activeChatLink}
+                        activeClassName={currentTheme === "light" ? styles.activeChatLink: styles.activeDarkChatLink}
+                        
                         to={{
                           pathname: `${CHAT_PAGE}/${chat.chatId}`,
                           state: {

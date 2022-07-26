@@ -9,9 +9,8 @@ import AuthModal from "./components/AuthModal/AuthModal";
 import Loader from "./components/Loader/Loader";
 import Navbar from "./components/Navbar/Navbar";
 import HomePage from "./pages/HomePage";
-import SettingsPage from "./pages/SettingsPage";
 import AccountPage from "./pages/AccountPage/AccountPage";
-import { CHAT_PAGE, HOME_PAGE, PROFILE_PAGE, SETTINGS_PAGE } from "./utils/paths";
+import { CHAT_PAGE, HOME_PAGE, PROFILE_PAGE } from "./utils/paths";
 import { Redirect } from "react-router-dom";
 import ChatPage from "./pages/ChatPage/ChatPage";
 import { themeSlice } from "./redux/reducers/theme/themeSlice";
@@ -61,7 +60,6 @@ function App() {
       <Switch>
         <Route path={HOME_PAGE} exact render={(props) => <HomePage {...props} currentUser={extUser}/>}/>
         <Route path={PROFILE_PAGE} render={(props) => <AccountPage {...props} currentUser={extUser}/>}/>
-        <Route path={SETTINGS_PAGE} component={SettingsPage}/>
         <Route path={CHAT_PAGE} render={(props) => <ChatPage {...props} currentUser={extUser} users={users}/>}/>
         <Redirect to={HOME_PAGE}/>
       </Switch>

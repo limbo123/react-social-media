@@ -10,6 +10,7 @@ import { AiOutlineLike, AiFillLike } from "react-icons/ai";
 import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 import { PROFILE_PAGE } from "../../../utils/paths";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Post({ post, id }) {
   const { auth, storage, firestore } = useContext(Context);
@@ -17,6 +18,7 @@ function Post({ post, id }) {
   const [isDeleting, setIsDeleting] = useState(false);
   const [likes, setLikes] = useState(post.likes ? post.likes : []);
   const [isLikeLeaved, setIsLikeLeaved] = useState(false);
+  const { currentTheme } = useSelector(state => state.themeReducer);
 
   useEffect(() => {
     if (user) {
@@ -65,7 +67,7 @@ function Post({ post, id }) {
           deletePost={deletePost}
         />
       )}
-      <div className={styles.container}>
+      <div style={currentTheme === "light" ? {background: "#fff"} : {background: "#203A4F"}} className={styles.container}>
         <div className={styles.userInfo}>
           <Link className={styles.Link} to={{
             pathname: PROFILE_PAGE,
@@ -74,7 +76,7 @@ function Post({ post, id }) {
             state: {currentUser: post.username}
           }}>
             <img className={styles.userAvatar} src={post.userAvatar} alt="" />
-            <span className={styles.userName}>{post.username}</span>
+            <span style={currentTheme === "dark" ? {color: "#fff"} : {color: "#000"}} className={styles.userName}>{post.username}</span>
           </Link>
           {user && post.userEmail === user.email && (
             <div
@@ -102,16 +104,16 @@ function Post({ post, id }) {
                   size="1.6rem"
                 />
               )}
-              <span>{post.likes ? post.likes.length : 0}</span>
+              <span style={currentTheme === "dark" ? {color: "#fff"} : {color: "#000"}}>{post.likes ? post.likes.length : 0}</span>
             </div>
           )}
-          <p className={styles.postText}>
-            <span>{post.username}</span>: {post.postText}
+          <p className={styles.postText} style={currentTheme === "dark" ? {color: "#fff"} : {color: "#000"}}>
+            <span style={currentTheme === "dark" ? {color: "#fff"} : {color: "#000"}}>{post.username}</span>: {post.postText}
           </p>
           {post?.comments?.reverse().map((comment) => {
             return (
-              <p key={shortid.generate()} className={styles.postText}>
-                <span>{comment.username}</span>: {comment.comment}
+              <p key={shortid.generate()} style={currentTheme === "dark" ? {color: "#fff"} : {color: "#000"}} className={styles.postText}>
+                <span style={currentTheme === "dark" ? {color: "#fff"} : {color: "#000"}}>{comment.username}</span>: {comment.comment}
               </p>
             );
           })}

@@ -7,6 +7,7 @@ import shortid from "shortid";
 import classNames from "classnames";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { withRouter } from "react-router-dom"
+import { useSelector } from "react-redux";
 
 function Chat({ currentUser, users, history }) {
   const { firestore } = useContext(Context);
@@ -14,6 +15,8 @@ function Chat({ currentUser, users, history }) {
   const [messageInputValue, setMessageInputValue] = useState("");
   const [allChats, loading] = useCollectionData(firestore.collection("chats"));
   const [chat, setChat] = useState({});
+  const { currentTheme } = useSelector(state => state.themeReducer);
+
   useEffect(() => {
     if(allChats) {
       setChat(allChats.find(currentChat => {
@@ -80,12 +83,13 @@ function Chat({ currentUser, users, history }) {
               action=""
             >
               <input
+              style={currentTheme === "dark" ? {color: "#fff"} : {color: "#000"}}
                 type="text"
                 value={messageInputValue}
                 onChange={(e) => setMessageInputValue(e.target.value)}
               />
               <button type="submit">
-                <BiSend size="1.4rem" />
+                <BiSend size="1.4rem" {...currentTheme === "dark" ? {color: "#fff"} : {color: "#000"}}/>
               </button>
             </form>
           </div>

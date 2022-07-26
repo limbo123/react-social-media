@@ -4,12 +4,10 @@ import {
   CHAT_PAGE,
   HOME_PAGE,
   PROFILE_PAGE,
-  SETTINGS_PAGE,
 } from "../../utils/paths";
 import styles from "./Navigation.module.css";
 import {
   AiOutlineHome,
-  AiOutlineSetting,
   AiOutlineMessage,
 } from "react-icons/ai";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -94,22 +92,6 @@ function Navigation({ currentUser }) {
             to={CHAT_PAGE}
           >
             Chat <AiOutlineMessage size="1.1rem" />
-          </NavLink>
-          <NavLink
-            style={
-              currentTheme === "light"
-                ? {
-                    borderBottom: "1px solid rgb(193, 192, 192)",
-                    color: "rgb(129, 129, 129)",
-                  }
-                : { borderBottom: "1px solid #041524", color: "#fff" }
-            }
-            className={styles.NavLink}
-            activeStyle={currentTheme === "dark" ? { background: "#0e2b45" } : { background: "#dbd9d9" }}
-
-            to={SETTINGS_PAGE}
-          >
-            Settings <AiOutlineSetting size="1.1rem" />
           </NavLink>
         </div>
       )}

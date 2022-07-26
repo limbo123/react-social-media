@@ -50,6 +50,11 @@
     background: rgb(225, 225, 225);
   }
 
+  .activeDarkChatLink {
+    background: #10293d;
+    color: #fff;
+  }
+
   .chatImage {
     width: 34px;
     height: 34px;
