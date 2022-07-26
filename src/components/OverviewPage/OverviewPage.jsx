@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Context } from "../../index";
 import CreatePost from "../PostComponents/CreatePost/CreatePost";
@@ -18,14 +18,11 @@ function OverviewPage({ currentUser }) {
   const [isCreatingHistory, setIsCreatingHistory] = useState(false);
   const { currentTheme } = useSelector(state => state.themeReducer);
 
-  console.log(currentUser);
-
   useEffect(() => {
     if (currentUser) {
       firestore
         .collection("posts")
         .where("username", "!=", currentUser.user.nickname)
-        .limit(1)
         .onSnapshot((snapshot) => {
           setLastPost(snapshot.docs[snapshot.docs.length - 1]);
           const allPosts = snapshot.docs.map((doc) => ({
@@ -41,59 +38,6 @@ function OverviewPage({ currentUser }) {
         });
     }
   }, [currentUser]);
-
-  useEffect(() => {
-    if (document.querySelectorAll("#post")) {
-      if (posts.length === 1) {
-        const observer = new IntersectionObserver(
-          (entries, observer) => {
-            entries.forEach((entry) => {
-              if (
-                entry.target === document.querySelector(".lastPost") &&
-                entry.isIntersecting
-              ) {
-                firestore
-                  .collection("posts")
-                  .where("username", "!=", currentUser.user.nickname)
-
-                  .startAfter(lastPost)
-                  .limit(1)
-                  .onSnapshot((snapshot) => {
-                    if (snapshot.docs.length > 0) {
-                      setLastPost(snapshot.docs[snapshot.docs.length - 1]);
-                      const resultAllPosts = snapshot.docs.map((doc) => ({
-                        id: doc.id,
-                        post: doc.data(),
-                      }));
-
-                      const resultFriendsPosts = resultAllPosts.filter(
-                        (post) => {
-                          if (
-                            currentUser.user.subscribes.includes(
-                              post.post.username
-                            )
-                          ) {
-                            return post;
-                          }
-                        }
-                      );
-                      setPosts([...posts, ...resultFriendsPosts]);
-                    }
-                  });
-              }
-            });
-          },
-          {
-            threshold: 0.1,
-          }
-        );
-        const post = document.querySelector(".lastPost");
-        observer.observe(post);
-      }
-    }
-  }, [posts]);
-
-
 
   return (
     <>

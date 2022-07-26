@@ -12,11 +12,12 @@ import QueryString from "qs";
 import { BiEditAlt } from "react-icons/bi";
 import { TiTick } from "react-icons/ti";
 import { IoClose } from "react-icons/io5";
-import { CHAT_PAGE } from "../../utils/paths";
-import shortid from "shortid";
 import classNames from "classnames";
-import useSelection from "antd/lib/table/hooks/useSelection";
 import { useSelector } from "react-redux";
+import { handleSubscribe } from "../../functions/subscribe";
+import { changeNickname } from "../../functions/changeNickname";
+import { chatUser } from "../../functions/chatUser";
+import { changeAvatar } from "../../functions/changeAvatar";
 
 function AccountPage({ currentUser }) {
   const { firestore, storage } = useContext(Context);
@@ -30,11 +31,12 @@ function AccountPage({ currentUser }) {
   const [newNickname, setNewNickname] = useState("");
   const [isNicknameChanging, setIsNicknameChanging] = useState(false);
   const [changeNicknameError, setChangeNicknameError] = useState("");
-  const { currentTheme } = useSelector(state => state.themeReducer);
+  const { currentTheme } = useSelector((state) => state.themeReducer);
 
   const username = QueryString.parse(location.search, {
     ignoreQueryPrefix: true,
   }).name;
+
   const [user, setUser] = useState(null);
   const [isUserSubscribed, setIsUserSubscribed] = useState(false);
   useEffect(() => {
@@ -77,164 +79,57 @@ function AccountPage({ currentUser }) {
   }, [user]);
   useEffect(() => {
     if (currentUser) {
-      firestore
-        .collection("chats")
-        .where("members", "array-contains", currentUser.user.nickname)
-        .get()
-        .then((res) => {
-          setUserChats(
-            res.docs.map((doc) => {
-              return doc.data();
-            })
-          );
-        });
+      
     }
   }, [currentUser]);
 
-  const handleSubscribe = () => {
-    const currentUserSubscribes = currentUser.user.subscribes;
-    const userSubscribers = user.user.subscribers;
-    if (isUserSubscribed) {
-      console.log("unsubscribe");
-      const newSubscribes = currentUserSubscribes.filter(
-        (subscribe) => subscribe !== user.user.nickname
-      );
-      console.log(currentUserSubscribes);
-      firestore.collection("users").doc(currentUser.id).update({
-        subscribes: newSubscribes,
-      });
+  const subscribe = async () => {
+    const result = await handleSubscribe(
+      currentUser,
+      user,
+      firestore,
+      isUserSubscribed
+    );
+    setIsUserSubscribed(result);
+  };
 
-      const newSubscribers = userSubscribers.filter(
-        (subscriber) => subscriber !== currentUser.user.nickname
-      );
-      firestore
-        .collection("users")
-        .doc(user.id)
-        .update({
-          subscribers: newSubscribers,
-        })
-        .then(() => setIsUserSubscribed(false));
-    } else {
-      console.log("subscribe");
-      currentUserSubscribes.push(user.user.nickname);
-      firestore.collection("users").doc(currentUser.id).update({
-        subscribes: currentUserSubscribes,
-      });
-      userSubscribers.push(currentUser.user.nickname);
-      firestore
-        .collection("users")
-        .doc(user.id)
-        .update({
-          subscribers: userSubscribers,
-        })
-        .then(() => setIsUserSubscribed(true));
+  const handleChatUser = async() => {
+    await chatUser(history, firestore, currentUser, username);
+  };
+
+  const renameProfile = async () => {
+    try {
+      await changeNickname(firestore, username, newNickname);
+      setNewNickname("");
+      setChangeNicknameError("");
+      setIsNicknameChanging(false);
+      history.push(`?name=${newNickname}`);
+      currentUser.user.nickname = newNickname;
+    } catch (error) {
+      console.log(error);
+      setChangeNicknameError(error.message);
     }
   };
 
-  const handleChatUser = () => {
-    const chat = userChats.find((chat) => chat.members.includes(username));
-    if (chat) {
-      history.push({
-        pathname: `${CHAT_PAGE}/${chat.chatId}`,
-        state: {
-          chatId: chat.chatId,
-        },
-      });
-    } else {
-      const newChatId = shortid.generate();
-      firestore
-        .collection("chats")
-        .doc(newChatId)
-        .set({
-          members: [currentUser.user.nickname, username],
-          messages: [],
-          chatId: newChatId,
-        })
-        .then(() => {
-          history.push({
-            pathname: `${CHAT_PAGE}/${newChatId}`,
-            state: {
-              chatId: newChatId,
-            },
-          });
-        });
-    }
-  };
-
-  const changeNickname = async () => {
-    let isUserExists = false;
-    await firestore
-      .collection("users")
-      .where("nickname", "==", newNickname)
-      .get()
-      .then((res) => {
-        if (res.docs.length > 0) {
-          isUserExists = true;
-        }
-      });
-    if (!isUserExists) {
-      firestore
-        .collection("users")
-        .where("nickname", "==", username)
-        .get()
-        .then((res) => {
-          res.docs[0].ref
-            .update({
-              nickname: newNickname,
-            })
-            .then(() => {
-              setNewNickname("");
-              setChangeNicknameError("");
-              setIsNicknameChanging(false);
-              history.push(`?name=${newNickname}`);
-              currentUser.user.nickname = newNickname;
-            });
-        });
-    } else {
-      setChangeNicknameError("username is already exists. Try another");
-    }
-  };
-
-  const changeProfilePhoto = (e) => {
+  const changeProfilePhoto = async(e) => {
     if (e.target.files[0]) {
-      const imageName = shortid.generate();
-      const uploadTask = storage
-        .ref(`images/${imageName}.jpg`)
-        .put(e.target.files[0]);
-      uploadTask.on(
-        "state_changed",
-        () => {},
-        () => {},
-        () => {
-          storage
-            .ref("images")
-            .child(`${imageName}.jpg`)
-            .getDownloadURL()
-            .then((imageUrl) => {
-              firestore.collection("users").doc(currentUser.id).update({
-                profilePhoto: imageUrl,
-              });
-              console.log(imageUrl);
-              currentUser.user.profilePhoto = imageUrl;
-            });
-        }
-      );
+      await changeAvatar(storage, e.target.files[0], firestore, currentUser);
     }
   };
 
   const changeBio = () => {
-    console.log("hello");
     firestore
       .collection("users")
       .where("nickname", "==", username)
       .get()
       .then((res) => {
-        res.docs[0].ref.update({
-          about: userBio,
-        })
-        .then(() => {
-          currentUser.user.about = userBio;
-        })
+        res.docs[0].ref
+          .update({
+            about: userBio,
+          })
+          .then(() => {
+            currentUser.user.about = userBio;
+          });
       });
   };
   return (
@@ -247,9 +142,23 @@ function AccountPage({ currentUser }) {
               closePostModal={() => setIsPostOponed(false)}
             />
           )}
-          <div style={currentTheme === "dark" ? {background: "#100f24"} : {background: "rgb(245, 237, 237)"}} className={styles.Container}>
+          <div
+            style={
+              currentTheme === "dark"
+                ? { background: "#100f24" }
+                : { background: "rgb(245, 237, 237)" }
+            }
+            className={styles.Container}
+          >
             <Navigation currentUser={currentUser} />
-            <div className={styles.contentContainer} style={currentTheme === "dark" ? {background: "#203A4F", color: '#fff'} : {background: "#fff"}}>
+            <div
+              className={styles.contentContainer}
+              style={
+                currentTheme === "dark"
+                  ? { background: "#203A4F", color: "#fff" }
+                  : { background: "#fff" }
+              }
+            >
               <div className={styles.Overview}>
                 <div className={styles.photoSect}>
                   <img
@@ -267,7 +176,10 @@ function AccountPage({ currentUser }) {
                   {user.user.nickname === currentUser.user.nickname && (
                     <div className={styles.changeImage}>
                       <label htmlFor="change-image">
-                        <BiEditAlt size="1.5rem" color={currentTheme === "dark" ? '#fff' : "#000"}/>
+                        <BiEditAlt
+                          size="1.5rem"
+                          color={currentTheme === "dark" ? "#fff" : "#000"}
+                        />
                       </label>
                       <input
                         onChange={changeProfilePhoto}
@@ -314,7 +226,7 @@ function AccountPage({ currentUser }) {
                                   }
                                   placeholder="type new nickname"
                                 />
-                                <button onClick={changeNickname}>
+                                <button onClick={renameProfile}>
                                   <TiTick size="1.3rem" />
                                 </button>
                               </div>
@@ -326,15 +238,6 @@ function AccountPage({ currentUser }) {
                   </div>
                   <div className={styles.bioOverlay}>
                     {user.user.nickname === currentUser.user.nickname ? (
-                      //   <input
-                      //   type="text"
-                      //   className={styles.changeNicknameInput}
-                      //   value={userBio}
-                      //   // onChange={(e) =>
-
-                      //   // }
-                      //   placeholder="type new bio"
-                      // />
                       <>
                         <textarea
                           name="bio"
@@ -345,15 +248,13 @@ function AccountPage({ currentUser }) {
                               "#change-bio-btn"
                             ).style.display = "block")
                           }
-                          onBlur={() =>
-                            {
-                              setTimeout(() => {
-                                document.querySelector(
-                                  "#change-bio-btn"
-                                ).style.display = "none"
-                              }, 500)
-                            }
-                          }
+                          onBlur={() => {
+                            setTimeout(() => {
+                              document.querySelector(
+                                "#change-bio-btn"
+                              ).style.display = "none";
+                            }, 500);
+                          }}
                           value={userBio}
                           placeholder="type new bio"
                           onChange={(e) => setUserBio(e.target.value)}
@@ -389,7 +290,7 @@ function AccountPage({ currentUser }) {
                 </div>
                 {user.user.nickname !== currentUser.user.nickname && (
                   <div className={styles.profileButtons}>
-                    <Button onClick={handleSubscribe} variant="contained">
+                    <Button onClick={subscribe} variant="contained">
                       {isUserSubscribed ? "Unsubscribe" : "Subscribe"}
                     </Button>
                     <Button onClick={handleChatUser} variant="contained">
