@@ -5,7 +5,7 @@
 This is the simple instagram or facebook copy. There is standard firebase provided authentification system.
 There are three pages: 
 
-## Home. 
+## Home page 
 
 There you can create new post and also look at all posts of your friends
 
