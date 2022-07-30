@@ -2,12 +2,19 @@
 
 ## Description
 
-This is the simple instagram or facebook copy. There is standard firebase provided authentification system  
+This is the simple instagram or facebook copy. There is standard firebase provided authentification system.
+There are three pages: 
 
-## General description.
+## Home. 
 
-All tasks and their proposals is stored in main smart-contract (LINK!!!)
+There you can create new post and also look at all posts of your friends
 
-Also employer can start chat with any author of proposal to his tasks.
+## Chat page
 
-To create task, employer must pay the task cost into Task contract, then it will automatically transfer to worker if he will finish the work
+There you can create chat with any user. Chat supporting only text messaging
+
+## Profile page
+
+there you can see the users posts, subscribers count. Also you can subscribe to user there, start chat with him.
+
+There also is the theme changing feature. Click on checkbox on navbar to change theme.
